@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 
 import known_data
+import sesame
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -66,7 +67,7 @@ while True:
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
-                # sesame.unlock_sesame()
+                sesame.unlock_sesame()
 
             face_names.append(name)
 
