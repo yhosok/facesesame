@@ -13,9 +13,11 @@ dlib = "*"
 face-recognition = "*"
 pysesame2 = "*"
 python-dotenv = "*"
+# uncomment for raspberry bi
+# picamera = {extras = ["array"],version = "*"}
 
 [requires]
-python_version = "3.7"
+python_version = "3.5.3"
 
 [scripts]
 webcam = "python facerec/facerec_from_webcam_faster.py"
