@@ -1,4 +1,9 @@
 [[source]]
+name = "piwheels"
+url = "https://www.piwheels.org/simple"
+verify_ssl = true
+
+[[source]]
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
@@ -8,13 +13,13 @@ flake8 = "*"
 autopep8 = "*"
 
 [packages]
-opencv-contrib-python = "*"
+# uncomment for webcam
+#opencv-contrib-python = "*"
+python-dotenv = "*"
+pysesame2 = "*"
+picamera = {extras = ["array"],version = "*"}
 dlib = "*"
 face-recognition = "*"
-pysesame2 = "*"
-python-dotenv = "*"
-# uncomment for raspberry bi
-# picamera = {extras = ["array"],version = "*"}
 
 [requires]
 python_version = "3.5.3"

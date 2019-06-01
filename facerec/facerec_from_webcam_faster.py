@@ -53,7 +53,7 @@ while True:
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(
-                known_face_encodings, face_encoding, 0.5)
+                known_face_encodings, face_encoding, 0.4)
             name = "Unknown"
 
             # # If a match was found in known_face_encodings, just use the first one.
@@ -67,7 +67,7 @@ while True:
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
-                sesame.unlock_sesame()
+                # sesame.unlock_sesame()
 
             face_names.append(name)
 
