@@ -25,6 +25,6 @@ face-recognition = "*"
 python_version = "3.5.3"
 
 [scripts]
-webcam = "python facerec/facerec_from_webcam_faster.py"
-raspi = "python facerec/facerec_on_raspberry_pi.py"
-save-known = "python -c 'import facerec.known_data; facerec.known_data.save()'"
+webcam = "python facesesame/facerec_from_webcam_faster.py"
+raspi = "python facesesame/facerec_on_raspberry_pi.py"
+save-known = "python -c 'import facesesame.known_data; facesesame.known_data.save()'"
