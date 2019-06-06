@@ -11,6 +11,7 @@ import numpy as np
 
 import known_data
 import sesame
+import logger
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -31,6 +32,8 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
+
+logger = logger.getLogger()
 
 while True:
     # Grab a single frame of video
@@ -68,6 +71,7 @@ while True:
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
                 # sesame.unlock_sesame()
+                logger.debug(name)
 
             face_names.append(name)
 
