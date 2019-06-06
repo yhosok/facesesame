@@ -13,13 +13,13 @@ flake8 = "*"
 autopep8 = "*"
 
 [packages]
-# uncomment for webcam
-#opencv-contrib-python = "*"
+opencv-contrib-python = "*"
 python-dotenv = "*"
 pysesame2 = "*"
 picamera = {extras = ["array"],version = "*"}
 dlib = "*"
 face-recognition = "*"
+gmail = "*"
 
 [requires]
 python_version = "3.5.3"

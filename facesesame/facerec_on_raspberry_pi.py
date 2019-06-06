@@ -16,10 +16,12 @@
 import face_recognition
 import picamera
 import numpy as np
+import cv2
 
 import known_data
 import sesame
 import logger
+import gmail_sender
 
 # Get a reference to the Raspberry Pi camera.
 # If this fails, make sure you have a camera connected to the RPi and that you
@@ -38,6 +40,8 @@ face_encodings = []
 
 logger = logger.getLogger()
 
+last_mail_sent_name = None
+
 while True:
     logger.debug("Capturing image.")
     # Grab a single frame of video from the RPi camera as a numpy array
@@ -54,7 +58,7 @@ while True:
     for face_encoding in face_encodings:
         # See if the face is a match for the known face(s)
         matches = face_recognition.compare_faces(
-            known_face_encodings, face_encoding, 0.5)
+            known_face_encodings, face_encoding, 0.4)
         name = "<Unknown Person>"
 
         if True in matches:
@@ -63,3 +67,10 @@ while True:
             sesame.unlock_sesame()
 
         logger.info("I see someone named {}!".format(name))
+
+        if (last_mail_sent_name != name or True not in matches):
+            gmail_sender.sendImageByGmail(
+                name + ' visit',
+                name + ' visit',
+                cv2.imencode('.jpg', output)[1].tostring())
+            last_mail_sent_name = name

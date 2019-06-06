@@ -12,6 +12,7 @@ import numpy as np
 import known_data
 import sesame
 import logger
+import gmail_sender
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -34,6 +35,8 @@ face_names = []
 process_this_frame = True
 
 logger = logger.getLogger()
+
+last_mail_sent_name = None
 
 while True:
     # Grab a single frame of video
@@ -72,6 +75,13 @@ while True:
                 name = known_face_names[best_match_index]
                 # sesame.unlock_sesame()
                 logger.debug(name)
+
+            if (last_mail_sent_name != name or True not in matches):
+                gmail_sender.sendImageByGmail(
+                    name + ' visit',
+                    name + ' visit',
+                    cv2.imencode('.jpg', rgb_small_frame)[1].tostring())
+                last_mail_sent_name = name
 
             face_names.append(name)
 
