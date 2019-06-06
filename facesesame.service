@@ -1,0 +1,11 @@
+[Unit]
+Description=open sesame by face recognition
+
+[Service]
+User=pi
+Restart=always
+WorkingDirectory=/home/pi/work/facesesame
+ExecStart=/home/pi/.local/bin/pipenv run raspi
+
+[Install]
+WantedBy=multi-user.target
