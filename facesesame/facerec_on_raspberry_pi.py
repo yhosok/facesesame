@@ -27,8 +27,10 @@ import gmail_sender
 # If this fails, make sure you have a camera connected to the RPi and that you
 # enabled your camera in raspi-config and rebooted first.
 camera = picamera.PiCamera()
-camera.resolution = (320, 240)
-output = np.empty((240, 320, 3), dtype=np.uint8)
+# camera.resolution = (320, 240)
+# output = np.empty((240, 320, 3), dtype=np.uint8)
+camera.resolution = (1280, 960)
+output_org = np.empty((960, 1280, 3), dtype=np.uint8)
 
 # Load a sample picture and learn how to recognize it.
 print("Loading known face image(s)")
@@ -45,7 +47,12 @@ last_mail_sent_name = None
 while True:
     logger.debug("Capturing image.")
     # Grab a single frame of video from the RPi camera as a numpy array
-    camera.capture(output, format="rgb")
+    camera.capture(output_org, format="bgr")
+
+    # Resize frame of video to 1/4 size for faster face recognition processing
+    output_resized = cv2.resize(output_org, (0, 0), fx=0.25, fy=0.25)
+    # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+    output = output_resized[:, :, ::-1]
 
     # Find all the faces and face encodings in the current frame of video
     face_locations = face_recognition.face_locations(output)
@@ -58,7 +65,7 @@ while True:
     for face_encoding in face_encodings:
         # See if the face is a match for the known face(s)
         matches = face_recognition.compare_faces(
-            known_face_encodings, face_encoding, 0.4)
+            known_face_encodings, face_encoding, 0.5)
         name = "<Unknown Person>"
 
         if True in matches:
@@ -72,5 +79,5 @@ while True:
             gmail_sender.sendImageByGmail(
                 name + ' visit',
                 name + ' visit',
-                cv2.imencode('.jpg', output)[1].tostring())
+                cv2.imencode('.jpg', output_org)[1].tostring())
             last_mail_sent_name = name

@@ -80,7 +80,7 @@ while True:
                 gmail_sender.sendImageByGmail(
                     name + ' visit',
                     name + ' visit',
-                    cv2.imencode('.jpg', rgb_small_frame)[1].tostring())
+                    cv2.imencode('.jpg', frame)[1].tostring())
                 last_mail_sent_name = name
 
             face_names.append(name)
