@@ -12,6 +12,7 @@ def sendImageByGmail(subject, body, image):
     password = settings.GMAIL_PASS
     client = gmail.GMail(user, password)
     to = settings.GMAIL_TO
+    subject = "[facesesame] " + subject
     if image == '':
         message = gmail.Message(subject, to=to, text=body)
     else:

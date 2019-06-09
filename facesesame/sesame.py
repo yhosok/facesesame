@@ -4,6 +4,7 @@ from uuid import UUID
 import settings
 import logger
 import traceback
+import gmail_sender
 
 logger = logger.getLogger()
 
@@ -20,10 +21,24 @@ def unlock_sesame():
             while task.pooling() is False:
                 if (try_count > 10):
                     logger.error('Failed to unlock sesame')
+                    gmail_sender.sendImageByGmail(
+                        'Failed to unlock sesame',
+                        'Failed to unlock sesame',
+                        '')
                     break
                 logger.debug('Processing...')
                 sleep(1)
                 try_count += 1
             logger.info('Result: %s' % task.is_successful)
         except SesameError:
-            logger.error(traceback.print_exc())
+            logger.exception('SesameError occurred')
+            gmail_sender.sendImageByGmail(
+                'SesameError occurred',
+                traceback.format_exc(),
+                '')
+        except:
+            logger.exception('Error occurred')
+            gmail_sender.sendImageByGmail(
+                'Error occurred',
+                traceback.format_exc(),
+                '')

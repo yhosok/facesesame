@@ -23,6 +23,8 @@ import sesame
 import logger
 import gmail_sender
 
+logger = logger.getLogger()
+
 # Get a reference to the Raspberry Pi camera.
 # If this fails, make sure you have a camera connected to the RPi and that you
 # enabled your camera in raspi-config and rebooted first.
@@ -33,14 +35,13 @@ camera.resolution = (1280, 960)
 output_org = np.empty((960, 1280, 3), dtype=np.uint8)
 
 # Load a sample picture and learn how to recognize it.
-print("Loading known face image(s)")
+logger.info("Loading known face image(s)")
 known_face_names, known_face_encodings = known_data.load()
+logger.info("Known face image(s) loaded")
 
 # Initialize some variables
 face_locations = []
 face_encodings = []
-
-logger = logger.getLogger()
 
 last_mail_sent_name = None
 
