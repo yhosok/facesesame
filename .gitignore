@@ -143,3 +143,6 @@ pip-selfcheck.json
 
 # vscode
 .vscode/
+
+# wav file(output by jtalk)
+*.wav

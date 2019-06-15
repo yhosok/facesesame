@@ -22,6 +22,7 @@ import known_data
 import sesame
 import logger
 import gmail_sender
+from talk import talk
 
 logger = logger.getLogger()
 
@@ -43,7 +44,7 @@ logger.info("Known face image(s) loaded")
 face_locations = []
 face_encodings = []
 
-last_mail_sent_name = None
+last_name = None
 
 while True:
     logger.debug("Capturing image.")
@@ -72,13 +73,16 @@ while True:
         if True in matches:
             first_match_index = matches.index(True)
             name = known_face_names[first_match_index]
+            talk('おかえりなさい') if last_name != name else False
             sesame.unlock_sesame()
+        else:
+            talk('あんた誰')
 
         logger.info("I see someone named {}!".format(name))
 
-        if (last_mail_sent_name != name or True not in matches):
+        if (last_name != name or True not in matches):
             gmail_sender.sendImageByGmail(
                 name + ' visit',
                 name + ' visit',
                 cv2.imencode('.jpg', output_org)[1].tostring())
-            last_mail_sent_name = name
+            last_name = name

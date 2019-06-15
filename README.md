@@ -17,6 +17,12 @@ pipenv shell
 pip install pysesame2 python-dotenv picamera[array] dlib face_recognition opencv-contrib-python gmail
 ```
 
+- Open JTalk関連
+```
+sudo apt-get install open-jtalk
+sudo apt-get install open-jtalk-mecab-naist-jdic hts-voice-nitech-jp-atr503-m001
+```
+
 ## 運用
 
 ### 鍵解錠してもよい人の顔データ生成と配置

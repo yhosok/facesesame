@@ -4,7 +4,6 @@
 # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 import face_recognition
 import cv2
 import numpy as np
@@ -13,6 +12,7 @@ import known_data
 import sesame
 import logger
 import gmail_sender
+from talk import talk
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -36,7 +36,7 @@ process_this_frame = True
 
 logger = logger.getLogger()
 
-last_mail_sent_name = None
+last_name = None
 
 while True:
     # Grab a single frame of video
@@ -73,16 +73,19 @@ while True:
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
-                # sesame.unlock_sesame()
                 logger.debug(name)
+                talk('おかえりなさい') if last_name != name else False
+                # sesame.unlock_sesame()
+            else:
+                talk('あんた誰')
 
-            if (last_mail_sent_name != name or True not in matches):
+            if (last_name != name or True not in matches):
                 gmail_sender.sendImageByGmail(
                     name + ' visit',
                     name + ' visit',
                     cv2.imencode('.jpg', frame)[1].tostring())
-                last_mail_sent_name = name
 
+            last_name = name
             face_names.append(name)
 
     process_this_frame = not process_this_frame
